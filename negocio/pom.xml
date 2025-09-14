@@ -71,7 +71,7 @@
 
     <build>
         <plugins>
-            <!-- Plugin de compilación con soporte para JDK 21a -->
+            <!-- Plugin de compilación con soporte para JDK 21a2 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
