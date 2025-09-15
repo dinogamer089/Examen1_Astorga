@@ -23,8 +23,6 @@
 
     <dependencies>
 
-
-
         <!-- Proyecto interno -->
         <dependency>
             <groupId>${project.groupId}</groupId>
