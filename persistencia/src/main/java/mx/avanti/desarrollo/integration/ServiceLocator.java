@@ -18,6 +18,7 @@ public class ServiceLocator {
 
 
     private static UsuarioDAO usuarioDAO;
+    private static ProfesorDAO profesorDAO;
 
     private static EntityManager getEntityManager(){
         return HibernateUtil.getEntityManager();
@@ -32,6 +33,18 @@ public class ServiceLocator {
             return usuarioDAO;
         } else{
             return usuarioDAO;
+        }
+    }
+
+    /**
+     * se crea la instancia de profesorDAO si esta no existe
+     */
+    public static ProfesorDAO getInstanceProfesorDAO(){
+        if(profesorDAO == null){
+            profesorDAO = new ProfesorDAO(getEntityManager());
+            return profesorDAO;
+        } else{
+            return profesorDAO;
         }
     }
     
