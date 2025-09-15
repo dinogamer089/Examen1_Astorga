@@ -7,7 +7,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
 
-        <!-- Declaración manual de entidades -->
+        <!-- Declaración manual de entidadess -->
         <class>mx.avanti.desarrollo.entity.Usuario</class>
         <class>mx.avanti.desarrollo.entity.Profesor</class>
 
