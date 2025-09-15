@@ -10,7 +10,7 @@ public class LoginHelper implements Serializable {
      * Metodo para hacer login llamará a la instancia de usuarioFacade
      * @param correo
      * @param password
-     * @return Usuario si existe, null si no
+     * @return Usuario si existe, null si no1
      */
     public Usuario Login(String correo, String password) {
         return ServiceFacadeLocator.getInstanceFacadeUsuario().login(password, correo);
