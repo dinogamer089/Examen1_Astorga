@@ -31,7 +31,7 @@ public class ImparteBeanUI implements Serializable {
     private Integer horaInicio = 7;
     private Integer horaFin = 8;
 
-    private int horasRestantes = 0; // 🔹 NUEVO
+    private int horasRestantes = 0;
 
     private List<Profesor> profesores;
     private List<UnidadAprendizaje> unidades;
