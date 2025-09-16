@@ -299,7 +299,10 @@
                                          actionListener="#{unidadUI.guardar}" update="@form"/>
                         <p:commandButton value="Cancelar" icon="pi pi-times"
                                          styleClass="btn"
-                                         actionListener="#{unidadUI.cancelar}"/>
+                                         process="@this"
+                                         update="nombreUnidad horasClase horasTaller horasLab"
+                                         resetValues="true"/>
+
                     </div>
                 </section>
             </main>
