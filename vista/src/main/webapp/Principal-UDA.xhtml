@@ -213,6 +213,9 @@
             color: #111;               /* Set the text color to black */
             text-decoration: none;
         }
+        .selected .item{
+            background-color: #b7e6b3;  /* Color verde claro */
+        }
     </style>
 </h:head>
 <h:body>
@@ -250,12 +253,15 @@
                                          oncomplete="window.location.reload();">
                             <f:ajax execute="@form" render="lista" />
                         </p:commandButton>
-                        <button type="button">Modificar</button>
-                        <p:commandButton value="Eliminar"
-                                         action="#{unidadUI.eliminar}"
+                        <p:commandButton value="Modificar"
                                          styleClass="btn"
-                                         oncomplete="window.location.reload();"
                                          disabled="#{unidadUI.seleccionada == null}">
+                            <f:ajax execute="@form" render="lista" />
+                        </p:commandButton>
+                        <p:commandButton value="Eliminar"
+                                         styleClass="btn"
+                                         disabled="#{unidadUI.seleccionada == null}"
+                                         oncomplete="PF('confirmDelete').show();">
                             <f:ajax execute="@form" render="lista" />
                         </p:commandButton>
                     </div>
@@ -263,7 +269,7 @@
                     <!-- Lista de Unidades de Aprendizaje -->
                     <div class="lista" id="lista">
                         <ui:repeat value="#{unidadUI.unidades}" var="uda">
-                            <p:commandLink action="#{unidadUI.seleccionar(uda)}" update="@form" styleClass="list">
+                            <p:commandLink action="#{unidadUI.seleccionar(uda)}" update="@form" styleClass="list #{unidadUI.seleccionada.idUA eq uda.idUA ? 'selected' : ''}">
                                 <div class="item">
                                     #{uda.idUA} - #{uda.nombre} - Horas de clase: #{uda.horasClase} -
                                     Horas de taller: #{uda.horasTaller} -
@@ -272,6 +278,16 @@
                             </p:commandLink>
                         </ui:repeat>
                     </div>
+                    <p:confirmDialog id="confirmDelete" widgetVar="confirmDelete" message="¿Estás seguro de que deseas eliminar esta Unidad de Aprendizaje?"
+                                     header="Confirmar Eliminación" severity="alert">
+                        <p:commandButton value="Eliminar"
+                                         action="#{unidadUI.eliminar}"
+                                         process="@form"
+                                         styleClass="ui-button-danger"
+                                         oncomplete="window.location.reload();"/>
+                        <p:commandButton value="Cancelar" onclick="PF('confirmDelete').hide();" />
+                    </p:confirmDialog>
+
                 </section>
             </main>
         </div>
