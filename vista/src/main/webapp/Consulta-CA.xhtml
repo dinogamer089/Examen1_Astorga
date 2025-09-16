@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<h:head>
+    <title>Horario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/primeicons@6.0.1/primeicons.css"/>
+    <style>
+        :root {
+            --green: #2b9b45;
+            --text: #111;
+            --card-bg: #f8f8f8;
+        }
+
+        body {
+            font-family: "Kaisei Opti", serif;
+            color: var(--text);
+            margin: 0;
+            background: #fff;
+        }
+
+        /* ===== Topbar (se mantiene igual) ===== */
+        .topbar {
+            grid-column: 1 / span 2;
+            grid-row: 1;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            background: var(--green);
+            color: #0a0a0a;
+            padding: 14px 24px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.15);
+        }
+        .topbar .home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; height: 28px;
+            border-radius: 8px;
+        }
+        .topbar .menu {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        a.menu-btn,
+        a.home-btn {
+            appearance: none;
+            -webkit-appearance: none;
+            border: none;
+            background-color: var(--green);
+            font: inherit;
+            line-height: 1;
+            cursor: pointer;
+            background: linear-gradient(to right, #3DAF94 50%, #111 50%);
+            background-size: 200% 100%;
+            background-position: right bottom;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: background-position 0.4s ease;
+        }
+        a.home-btn {
+            font-size: 30px;
+            padding: 6px 10px;
+        }
+        a.menu-btn:hover,
+        a.home-btn:hover {
+            background-position: left bottom;
+        }
+
+        /* ===== Contenido principal ===== */
+        .content {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Recuadro gris translúcido */
+        .container {
+            display: flex;
+            gap: 20px;
+            background: rgba(243,243,243,0.25); /* 25% transparente */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+
+        .panel {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+            padding: 20px;
+        }
+
+        /* Panel izquierdo (profesores) */
+        .profesores {
+            flex: 1;
+            max-width: 350px;
+        }
+        .profesor-row {
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 2fr;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            background: #f0f0f0;
+            cursor: pointer;
+            color: black; /* siempre texto negro */
+        }
+        .profesor-row.active {
+            background: #2b9b45;
+            font-weight: bold;
+            color: black; /* mantiene texto negro */
+        }
+
+        /* Panel derecho (horario) */
+        .horario {
+            flex: 3;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+        .horario .dia {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* ===== Materias ===== */
+        .materia {
+            background: #dcdcdc;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 13px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.15);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .materia strong {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+        .materia small {
+            font-size: 12px;
+            color: #333;
+        }
+        .materia .detalles {
+            font-size: 12px;
+            margin: 4px 0;
+            color: #444;
+        }
+        .materia .horario-texto {
+            margin-top: 6px;
+            font-weight: bold;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="layout">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <a href="Principal.xhtml" class="home-btn" aria-label="Inicio">
+                <span class="home"><i class="pi pi-home"></i></span>
+            </a>
+            <nav class="menu">
+                <a href="Profesores.xhtml" class="menu-btn">Profesores</a>
+                <a href="Principal-UDA.xhtml" class="menu-btn">Unidades de Aprendizaje</a>
+                <a href="Asignar-UDA.xhtml" class="menu-btn">Asignar Unidades</a>
+                <a href="Consulta-CA.xhtml" class="menu-btn">Horarios</a>
+            </nav>
+        </header>
+
+        <!-- Main content -->
+        <main class="content">
+            <div class="container">
+                <!-- Lista de profesores -->
+                <section class="panel profesores">
+                    <div class="profesor-row active">
+                        <span>0001</span>
+                        <span>AER8654</span>
+                        <span>Fernando Echavarria Contreras</span>
+                    </div>
+                    <div class="profesor-row">
+                        <span>0002</span>
+                        <span>RFC1234</span>
+                        <span>Otro Profesor</span>
+                    </div>
+                </section>
+
+                <!-- Horario -->
+                <section class="panel horario">
+                    <div>
+                        <div class="dia">Lunes</div>
+                        <div class="materia">
+                            <strong>Matemáticas</strong>
+                            <div class="detalles">ID: UA001 | Clase</div>
+                            <div class="horario-texto">08:00 - 10:00</div>
+                        </div>
+                        <div class="materia">
+                            <strong>Álgebra</strong>
+                            <div class="detalles">ID: UA002 | Taller</div>
+                            <div class="horario-texto">10:00 - 11:00</div>
+                        </div>
+                        <div class="materia">
+                            <strong>Álgebra</strong>
+                            <div class="detalles">ID: UA002 | Laboratorio</div>
+                            <div class="horario-texto">15:00 - 17:00</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="dia">Martes</div>
+                        <div class="materia">
+                            <strong>Matemáticas</strong>
+                            <div class="detalles">ID: UA001 | Clase</div>
+                            <div class="horario-texto">10:00 - 12:00</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="dia">Miércoles</div>
+                    </div>
+                    <div>
+                        <div class="dia">Jueves</div>
+                    </div>
+                    <div>
+                        <div class="dia">Viernes</div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+</h:body>
+</html>
