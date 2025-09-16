@@ -19,6 +19,7 @@ public class ServiceLocator {
 
     private static UsuarioDAO usuarioDAO;
     private static ProfesorDAO profesorDAO;
+    private static UnidadAprendizajeDAO UnidadAprendizajeDAO;
 
     private static EntityManager getEntityManager(){
         return HibernateUtil.getEntityManager();
@@ -47,5 +48,14 @@ public class ServiceLocator {
             return profesorDAO;
         }
     }
-    
+
+
+    public static UnidadAprendizajeDAO getInstanceUnidadAprendizajeDAO(){
+        if(UnidadAprendizajeDAO == null){
+            UnidadAprendizajeDAO = new UnidadAprendizajeDAO(getEntityManager());
+            return UnidadAprendizajeDAO;
+        } else{
+            return UnidadAprendizajeDAO;
+        }
+    }
 }
