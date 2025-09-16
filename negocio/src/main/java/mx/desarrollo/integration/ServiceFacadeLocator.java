@@ -1,5 +1,6 @@
 package mx.desarrollo.integration;
 
+import mx.desarrollo.facade.FacadeImparte;
 import mx.desarrollo.facade.FacadeProfesor;
 import mx.desarrollo.facade.FacadeUsuario;
 import mx.desarrollo.facade.FacadeUnidadAprendizaje;
@@ -9,6 +10,15 @@ public class ServiceFacadeLocator {
     private static FacadeUsuario facadeUsuario;
     private static FacadeProfesor facadeProfesor;
     private static FacadeUnidadAprendizaje facadeUnidadAprendizaje;
+    private static FacadeImparte facadeImparte;
+
+    public static FacadeImparte getInstanceFacadeImparte(){
+        if(facadeImparte == null){
+            facadeImparte = new FacadeImparte();
+        }
+        return facadeImparte;
+    }
+
 
     public static synchronized FacadeProfesor getInstanceFacadeProfesor() {
         if (facadeProfesor == null) {

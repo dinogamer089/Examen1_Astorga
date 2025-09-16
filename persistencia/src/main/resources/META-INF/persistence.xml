@@ -10,6 +10,8 @@
         <!-- Declaración manual de entidadess -->
         <class>mx.avanti.desarrollo.entity.Usuario</class>
         <class>mx.avanti.desarrollo.entity.Profesor</class>
+        <class>mx.avanti.desarrollo.entity.UnidadAprendizaje</class>
+        <class>mx.avanti.desarrollo.entity.Imparte</class>
 
 
         <properties>
