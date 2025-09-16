@@ -9,12 +9,14 @@ import mx.avanti.desarrollo.entity.UnidadAprendizaje;
 import mx.desarrollo.helper.UnidadAprendizajeHelper;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Named("unidadUI")
 @SessionScoped
 public class UnidadAprendizajeBeanUI implements Serializable{
 
     private UnidadAprendizaje unidad;
+    private List<UnidadAprendizaje> unidades;
     private UnidadAprendizajeHelper unidadHelper;
 
     public UnidadAprendizajeBeanUI() {
@@ -24,6 +26,7 @@ public class UnidadAprendizajeBeanUI implements Serializable{
     @PostConstruct
     public void init() {
         unidad = new UnidadAprendizaje();
+        unidades = unidadHelper.obtenerTodas();
     }
 
     public void guardar() {
@@ -48,4 +51,10 @@ public class UnidadAprendizajeBeanUI implements Serializable{
     // Getters y setters
     public UnidadAprendizaje getUnidad() { return unidad; }
     public void setUnidad(UnidadAprendizaje unidad) { this.unidad = unidad; }
+    public List<UnidadAprendizaje> getUnidades() {
+        return unidades;
+    }
+    public void mostrarUnidades() {
+        unidades = unidadHelper.obtenerTodas();  // Reload the list when "Mostrar" is clicked
+    }
 }
