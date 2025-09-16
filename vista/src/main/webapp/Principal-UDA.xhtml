@@ -43,33 +43,37 @@
             background: var(--green-rail);
             border-radius: 0 16px 16px 0;
             display: flex;
-            align-items: flex-start;  /* aligns with top of card */
-            justify-content: center;
+            flex-direction: column;  /* Stack buttons vertically */
+            align-items: center;     /* Center the buttons */
+            justify-content: flex-start; /* Align buttons at the top */
             padding-top:28px;
             box-shadow: 2px 0 6px rgba(0,0,0,.18);
             margin-top: 28px;
             margin-bottom:28px;
         }
-        .rail .rail-badge{
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            font-weight: 700;
-            color: #fff;
-            background: rgba(255,255,255,.12);
-            border: 1px solid rgba(255,255,255,.35);
-            border-radius: 10px;
-            padding: 10px 12px;
-            letter-spacing: .5px;
-        }
-
-        .rail .rail-btn{
+        a.rail-btn{
             background: var(--card-bg);
             border: none;
             width: auto; height: 30px;
-            padding: 0px 28px;
+            padding: 5px 18px;
+            padding-left: 32px;
             border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
         }
-
+        a.alta-btn {
+            background: transparent;
+            border: none;
+            width: auto; height: 30px;
+            padding: 5px 28px;
+            border-radius: 10px;
+            margin-bottom: 10px;          /* Set the text color */
+            cursor: pointer;
+            text-decoration: none;
+            color: black;
+        }
         /* Barra superior */
         .topbar {
             grid-column: 1 / span 2;  /* stretch across both columns */
@@ -199,6 +203,16 @@
             font-family: "Kaisei Opti", serif;
             font-size: 18px;
         }
+        .ui-commandlink .item {
+            background: var(--card-bg); /* Same background as card */
+            border-radius: 8px;
+            padding: 12px 8px;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,.05);
+            color: #111;               /* Set the text color to black */
+            text-decoration: none;
+        }
     </style>
 </h:head>
 <h:body>
@@ -207,7 +221,8 @@
         <div class="layout">
             <!-- Barra lateral -->
             <aside class="rail">
-                <button type="button" class="rail-btn" aria-label="Alta">Alta</button>
+                <a href="Principal-UDA.xhtml" class="rail-btn">Principal</a>
+                <a href="Altas-UDA.xhtml" class="alta-btn">Alta</a>
             </aside>
 
             <!-- Barra superior -->
@@ -236,15 +251,25 @@
                             <f:ajax execute="@form" render="lista" />
                         </p:commandButton>
                         <button type="button">Modificar</button>
-                        <button type="button">Eliminar</button>
+                        <p:commandButton value="Eliminar"
+                                         action="#{unidadUI.eliminar}"
+                                         styleClass="btn"
+                                         oncomplete="window.location.reload();"
+                                         disabled="#{unidadUI.seleccionada == null}">
+                            <f:ajax execute="@form" render="lista" />
+                        </p:commandButton>
                     </div>
 
                     <!-- Lista de Unidades de Aprendizaje -->
                     <div class="lista" id="lista">
                         <ui:repeat value="#{unidadUI.unidades}" var="uda">
-                            <div class="item">
-                                #{uda.idUA} - #{uda.nombre} - Horas de clase: #{uda.horasClase} - Horas de taller: #{uda.horasTaller} - Horas de laboratorio: #{uda.horasLaboratorio}
-                            </div>
+                            <p:commandLink action="#{unidadUI.seleccionar(uda)}" update="@form" styleClass="list">
+                                <div class="item">
+                                    #{uda.idUA} - #{uda.nombre} - Horas de clase: #{uda.horasClase} -
+                                    Horas de taller: #{uda.horasTaller} -
+                                    Horas de laboratorio: #{uda.horasLaboratorio}
+                                </div>
+                            </p:commandLink>
                         </ui:repeat>
                     </div>
                 </section>

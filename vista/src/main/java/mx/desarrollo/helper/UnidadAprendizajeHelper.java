@@ -32,4 +32,21 @@ public class UnidadAprendizajeHelper {
         }
         ServiceFacadeLocator.getInstanceFacadeUnidadAprendizaje().registrarUnidadAprendizaje(unidad);
     }
+
+    public void eliminarUnidadAprendizaje(UnidadAprendizaje unidad) {
+        EntityManager em = HibernateUtil.getEntityManager(); // Get your EntityManager
+        try {
+            em.getTransaction().begin();
+            em.remove(em.contains(unidad) ? unidad : em.merge(unidad));  // Ensure the entity is managed before removing
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
+            }
+            throw e;  // Rethrow or handle appropriately
+        } finally {
+            em.close();
+        }
+    }
+
 }
