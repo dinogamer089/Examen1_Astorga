@@ -45,7 +45,7 @@ public class ProfesorBeanUI implements Serializable {
         profesor = new Profesor();
     }
 
-    // Getters y settersa
+    // Getters y setters
     public Profesor getProfesor() { return profesor; }
     public void setProfesor(Profesor profesor) { this.profesor = profesor; }
 }
