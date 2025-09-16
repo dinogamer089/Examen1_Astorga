@@ -37,7 +37,9 @@
             min-height: 100vh;
         }
 
+        /* ======= TOPBAR ======= */
         .topbar {
+            grid-column: 1 / span 2;
             grid-row: 1;
             display: flex;
             align-items: center;
@@ -48,6 +50,13 @@
             border-radius: 0 0 10px 10px;
             box-shadow: 0 2px 6px rgba(0,0,0,.15);
         }
+        .topbar .home{
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; height: 28px;
+            border-radius: 8px;
+        }
         .topbar .menu{
             display: flex;
             align-items: center;
@@ -55,12 +64,15 @@
             font-size: 22px;
             font-weight: 600;
         }
+        .topbar .menu span{ cursor: default; }
+
 
         a.menu-btn,
         a.home-btn {
             appearance: none;
             -webkit-appearance: none;
             border: none;
+            background-color: var(--green);
             font: inherit;
             line-height: 1;
             cursor: pointer;
@@ -71,10 +83,16 @@
             -webkit-text-fill-color: transparent;
             transition: background-position 0.4s ease;
         }
+        a.home-btn {
+            font-size: 30px;
+            padding: 6px 10px;
+        }
         a.menu-btn:hover,
         a.home-btn:hover {
             background-position: left bottom;
         }
+        /* ======= FIN TOPBAR ======= */
+
         .home i { font-size: 22px; }
 
         /* CONTENEDOR PARA EL FORMULARIO */
@@ -106,7 +124,7 @@
         /* DIVIDIR EN DOS LOS CONTENIDOS */
         .grid-asignacion{
             display: grid;
-            grid-template-columns: 1fr 2fr; /* panel izq + horario */
+            grid-template-columns: 1fr 2fr;
             gap: 28px;
         }
 
@@ -206,10 +224,10 @@
         }
         .chip .pi{ font-size: 12px; }
 
-        /* MMENSAJES */
+        /* MENSAJES */
         #formAsignar\\:msgs{ margin-bottom: 10px; }
 
-        /* EFECTOS DE SOBREPONER MOUSE */
+        /* FOCUS */
         .ui-inputfield:focus,
         .ui-inputtextarea:focus,
         .ui-selectonemenu:focus,
@@ -218,7 +236,7 @@
             box-shadow: 0 0 0 2px rgba(43,155,69,.15) !important;
         }
 
-        /* DESPLIEGUE (flecha) */
+        /* Trigger select */
         .ui-selectonemenu .ui-selectonemenu-trigger{
             background: var(--green) !important;
             border-color: var(--green) !important;
@@ -228,7 +246,7 @@
             border-color: var(--green-600) !important;
         }
 
-        /* BOTONES SPINNER */
+        /* Spinner buttons */
         .ui-spinner-button{
             background: var(--green) !important;
             border-color: var(--green) !important;
@@ -239,7 +257,7 @@
             border-color: var(--green-600) !important;
         }
 
-        /* ESTILOS DE ACTIVOS Y SELECCIONADOS */
+        /* Estados activos */
         .ui-state-active,
         .ui-widget-content .ui-state-active,
         .ui-widget-header .ui-state-active,
@@ -251,7 +269,7 @@
             color: #fff !important;
         }
 
-        /* MENSAJES DE EXITO A VERDE */
+        /* Mensajes éxito */
         .ui-messages-info,
         .ui-message-info{
             background: #e9f6ee !important;
@@ -259,7 +277,7 @@
             color: var(--green) !important;
         }
 
-        /* BOTON AGREGAR CLASE A VERDE */
+        /* Botón agregar (primefaces) */
         .ui-button.btn-add,
         #formAsignar\:btnAdd.ui-button{
             background: var(--green) !important;
@@ -303,10 +321,10 @@
                     <span class="home"><i class="pi pi-home"></i></span>
                 </a>
                 <nav class="menu">
-                    <a href="index.xhtml" class="menu-btn">Profesores</a>
+                    <a href="Profesores.xhtml" class="menu-btn">Profesores</a>
                     <a href="Principal-UDA.xhtml" class="menu-btn">Unidades de Aprendizaje</a>
                     <a href="AsignarUnidades-UA.xhtml" class="menu-btn">Asignar Unidades</a>
-                    <a href="consulta-UDA.xhtml" class="menu-btn">Horarios</a>
+                    <a href="consulta-CA.xhtml" class="menu-btn">Horarios</a>
                 </nav>
             </header>
 
