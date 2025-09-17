@@ -5,7 +5,5 @@ public enum Dia {
     Martes,
     Miercoles,
     Jueves,
-    Viernes,
-    Sabado,
-    Domingo
+    Viernes
 }
