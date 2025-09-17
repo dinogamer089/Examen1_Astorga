@@ -238,11 +238,11 @@
 </h:head>
 
 <h:body>
-    <h:form id="formAltaUnidades">
+    <h:form id="formModifUnidades">
         <div class="layout">
             <aside class="rail">
                 <a href="Principal-UDA.xhtml" class="rail-btn">Principal</a>
-                <a href="Altas-UDA.xhtml" class="alta-btn">Alta</a>
+                <a href="Modificar-UDA.xhtml" class="alta-btn">Modificar</a>
             </aside>
 
             <header class="topbar">
@@ -259,12 +259,12 @@
 
             <main class="content">
                 <section class="card">
-                    <h2 class="title">Alta de Unidad de Aprendizaje</h2>
+                    <h2 class="title">Modificar Unidad de Aprendizaje</h2>
 
                     <div class="row-1col">
                         <label for="nombreUnidad" class="label">Nombre:</label>
                         <p:inputText id="nombreUnidad"
-                                     value="#{unidadUI.unidad.nombre}"
+                                     value="#{unidadUI.seleccionada.nombre}"
                                      styleClass="input"
                                      placeholder="Álgebra Superior"/>
                     </div>
@@ -275,7 +275,7 @@
                             <div class="horas-row">
                                 <label for="horasClase">Clase</label>
                                 <p:selectOneMenu id="horasClase"
-                                                 value="#{unidadUI.unidad.horasClase}"
+                                                 value="#{unidadUI.seleccionada.horasClase}"
                                                  styleClass="horas-select">
                                     <f:selectItem itemLabel="0" itemValue="0"/>
                                     <f:selectItem itemLabel="1" itemValue="1"/>
@@ -287,7 +287,7 @@
                             <div class="horas-row">
                                 <label for="horasTaller">Taller</label>
                                 <p:selectOneMenu id="horasTaller"
-                                                 value="#{unidadUI.unidad.horasTaller}"
+                                                 value="#{unidadUI.seleccionada.horasTaller}"
                                                  styleClass="horas-select">
                                     <f:selectItem itemLabel="0" itemValue="0"/>
                                     <f:selectItem itemLabel="1" itemValue="1"/>
@@ -299,7 +299,7 @@
                             <div class="horas-row">
                                 <label for="horasLab">Laboratorio</label>
                                 <p:selectOneMenu id="horasLab"
-                                                 value="#{unidadUI.unidad.horasLaboratorio}"
+                                                 value="#{unidadUI.seleccionada.horasLaboratorio}"
                                                  styleClass="horas-select">
                                     <f:selectItem itemLabel="0" itemValue="0"/>
                                     <f:selectItem itemLabel="1" itemValue="1"/>
@@ -312,15 +312,14 @@
                     </div>
 
                     <div class="actions">
-                        <p:commandButton value="Guardar" icon="pi pi-save"
+                        <p:commandButton value="Modificar" icon="pi pi-pencil"
                                          styleClass="btn"
-                                         actionListener="#{unidadUI.guardar}" update="@form"/>
+                                         actionListener="#{unidadUI.editar}" update="@form"/>
                         <p:commandButton value="Cancelar" icon="pi pi-times"
                                          styleClass="btn"
                                          process="@this"
                                          update="nombreUnidad horasClase horasTaller horasLab"
                                          resetValues="true"/>
-
                     </div>
                 </section>
             </main>
