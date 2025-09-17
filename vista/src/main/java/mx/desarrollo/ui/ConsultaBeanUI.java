@@ -13,6 +13,7 @@ import mx.desarrollo.helper.ImparteHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,7 +50,6 @@ public class ConsultaBeanUI implements Serializable {
         }
     }
 
-
     // Método invocado desde el h:commandLink (al hacer clic en un profesor)
     public void setProfesorSeleccionado(Profesor profesor) {
         try {
@@ -70,22 +70,29 @@ public class ConsultaBeanUI implements Serializable {
         }
     }
 
-    // Filtrado por día
+    // ===== ORDENACIÓN POR DÍA: de más temprano a más tarde =====
     private List<Imparte> filtrarPorDia(Dia dia) {
         if (asignaciones == null) return List.of();
+
+        // Orden: horaInicio ASC, luego horaFin ASC, y desempate por nombre de UDA
+        Comparator<Imparte> cmp = Comparator
+                .comparing(Imparte::getHoraInicio)
+                .thenComparing(Imparte::getHoraFin)
+                .thenComparing(i -> i.getUnidadAprendizaje() != null ? i.getUnidadAprendizaje().getNombre() : "", String.CASE_INSENSITIVE_ORDER);
+
         return asignaciones.stream()
                 .filter(a -> a.getDia() == dia)
+                .sorted(cmp)
                 .collect(Collectors.toList());
     }
 
-
-    public List<Imparte> getHorarioLunes() { return filtrarPorDia(Dia.Lunes); }
-    public List<Imparte> getHorarioMartes() { return filtrarPorDia(Dia.Martes); }
+    public List<Imparte> getHorarioLunes()     { return filtrarPorDia(Dia.Lunes); }
+    public List<Imparte> getHorarioMartes()    { return filtrarPorDia(Dia.Martes); }
     public List<Imparte> getHorarioMiercoles() { return filtrarPorDia(Dia.Miercoles); }
-    public List<Imparte> getHorarioJueves() { return filtrarPorDia(Dia.Jueves); }
-    public List<Imparte> getHorarioViernes() { return filtrarPorDia(Dia.Viernes); }
+    public List<Imparte> getHorarioJueves()    { return filtrarPorDia(Dia.Jueves); }
+    public List<Imparte> getHorarioViernes()   { return filtrarPorDia(Dia.Viernes); }
 
     // Getters y setters
     public List<Profesor> getListaProfesores() { return listaProfesores; }
-    public Profesor getProfesorSeleccionado() { return profesorSeleccionado; }
+    public Profesor getProfesorSeleccionado()  { return profesorSeleccionado; }
 }

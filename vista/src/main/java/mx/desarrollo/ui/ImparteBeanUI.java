@@ -138,7 +138,7 @@ public class ImparteBeanUI implements Serializable {
             // 🔹 Recargar asignaciones desde BD (ya con nombre de la UDA correcto)
             asignacionesProfesor = helper.listarDeProfesor(profesorId);
 
-            // Recalcular restantes
+            // Recalcular disponibles
             recalcularDisponibles();
 
             addMsg(FacesMessage.SEVERITY_INFO,
@@ -150,11 +150,33 @@ public class ImparteBeanUI implements Serializable {
         }
     }
 
+    // 🔹 Asignaciones de un día específico, ordenadas por hora
     public List<Imparte> asignacionesDia(Dia d) {
         if (profesorId == null || unidadId == null) return List.of();
         return asignacionesProfesor.stream()
                 .filter(a -> Objects.equals(a.getUnidadAprendizaje().getIdUA(), unidadId))
                 .filter(a -> a.getDia() == d)
+                .sorted((a1, a2) -> {
+                    int cmp = a1.getHoraInicio().compareTo(a2.getHoraInicio());
+                    if (cmp == 0) {
+                        return a1.getHoraFin().compareTo(a2.getHoraFin());
+                    }
+                    return cmp;
+                })
+                .collect(Collectors.toList());
+    }
+
+    // 🔹 Opcional: obtener todo el horario ordenado por día y hora
+    public List<Imparte> getHorarioCompleto() {
+        if (profesorId == null) return List.of();
+        return asignacionesProfesor.stream()
+                .sorted((a1, a2) -> {
+                    int cmpDia = a1.getDia().compareTo(a2.getDia());
+                    if (cmpDia == 0) {
+                        return a1.getHoraInicio().compareTo(a2.getHoraInicio());
+                    }
+                    return cmpDia;
+                })
                 .collect(Collectors.toList());
     }
 
