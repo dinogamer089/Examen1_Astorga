@@ -6,7 +6,6 @@ import mx.desarrollo.integration.ServiceFacadeLocator;
 public class ProfesorHelper {
 
     public void guardarProfesor(Profesor profesor) {
-        // Se normaliza el rfc quitando espacios y pasando a mayyusculas
         if (profesor.getRfc() != null) {
             profesor.setRfc(profesor.getRfc().trim().toUpperCase());
         }

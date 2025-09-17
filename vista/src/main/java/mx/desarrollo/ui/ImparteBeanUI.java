@@ -50,7 +50,6 @@ public class ImparteBeanUI implements Serializable {
     // Metodo cuando se cambia de profesor
     public void onProfesorChange() {
         asignacionesProfesor = (profesorId == null) ? new ArrayList<>() : helper.listarDeProfesor(profesorId);
-        // 🔹 Recargar lista de unidades para reflejar altas nuevas
         unidades = helper.listarUnidades();
         recalcularDisponibles();
     }
@@ -114,7 +113,6 @@ public class ImparteBeanUI implements Serializable {
         Profesor p = new Profesor();
         p.setIdProfesor(profesorId);
 
-        // 🔹 Buscar la unidad completa en la lista cargada
         UnidadAprendizaje ua = unidades.stream()
                 .filter(u -> Objects.equals(u.getIdUA(), unidadId))
                 .findFirst()
@@ -134,11 +132,8 @@ public class ImparteBeanUI implements Serializable {
 
         try {
             helper.asignar(imparte);
-
-            // 🔹 Recargar asignaciones desde BD (ya con nombre de la UDA correcto)
             asignacionesProfesor = helper.listarDeProfesor(profesorId);
 
-            // Recalcular disponibles
             recalcularDisponibles();
 
             addMsg(FacesMessage.SEVERITY_INFO,
@@ -150,7 +145,6 @@ public class ImparteBeanUI implements Serializable {
         }
     }
 
-    // 🔹 Asignaciones de un día específico, ordenadas por hora
     public List<Imparte> asignacionesDia(Dia d) {
         if (profesorId == null || unidadId == null) return List.of();
         return asignacionesProfesor.stream()
@@ -166,7 +160,6 @@ public class ImparteBeanUI implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    // 🔹 Opcional: obtener todo el horario ordenado por día y hora
     public List<Imparte> getHorarioCompleto() {
         if (profesorId == null) return List.of();
         return asignacionesProfesor.stream()

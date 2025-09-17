@@ -70,11 +70,11 @@ public class ConsultaBeanUI implements Serializable {
         }
     }
 
-    // ===== ORDENACIÓN POR DÍA: de más temprano a más tarde =====
+    // ===== ORDENACIÓN POR DIA: de más temprano a más tarde =====
     private List<Imparte> filtrarPorDia(Dia dia) {
         if (asignaciones == null) return List.of();
 
-        // Orden: horaInicio ASC, luego horaFin ASC, y desempate por nombre de UDA
+        // Orden: horaInicio ASC, luego horaFin ASC
         Comparator<Imparte> cmp = Comparator
                 .comparing(Imparte::getHoraInicio)
                 .thenComparing(Imparte::getHoraFin)
