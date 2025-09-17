@@ -49,4 +49,12 @@ public class UnidadAprendizajeHelper {
         }
     }
 
+    public void editarUnidadAprendizaje(UnidadAprendizaje unidad) {
+        if (unidad.getNombre() != null) {
+            unidad.setNombre(unidad.getNombre().toUpperCase());
+        }
+        ServiceFacadeLocator.getInstanceFacadeUnidadAprendizaje().modificarUnidadAprendizaje(unidad);
+    }
+
+
 }

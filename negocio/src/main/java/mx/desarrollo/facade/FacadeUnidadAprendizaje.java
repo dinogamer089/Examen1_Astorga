@@ -11,4 +11,8 @@ public class FacadeUnidadAprendizaje {
         delegate.saveUnidadAprendizaje(unidad);
     }
 
+    public void modificarUnidadAprendizaje(UnidadAprendizaje unidad) {
+        delegate.updateUnidadAprendizaje(unidad);
+    }
+
 }

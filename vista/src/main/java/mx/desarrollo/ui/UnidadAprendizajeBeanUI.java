@@ -80,4 +80,24 @@ public class UnidadAprendizajeBeanUI implements Serializable{
         }
     }
 
+    public void editar() {
+        try {
+            if (seleccionada != null) {
+                unidadHelper.editarUnidadAprendizaje(seleccionada);
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito", "Unidad de Aprendizaje modificada correctamente"));
+                seleccionada = null; // limpiar selección
+                unidades = unidadHelper.obtenerTodas(); // recargar lista
+            }
+        } catch (IllegalArgumentException ex) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_WARN, "Advertencia", ex.getMessage()));
+        } catch (Exception ex) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No se pudo modificar la Unidad de Aprendizaje"));
+        }
+    }
+
+
+
 }
