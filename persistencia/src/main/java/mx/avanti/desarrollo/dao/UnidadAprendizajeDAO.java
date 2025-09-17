@@ -19,11 +19,13 @@ public class UnidadAprendizajeDAO extends AbstractDAO<UnidadAprendizaje> {
                 .getResultList();
     }
 
+    /** Busqueda directa por id de la UA para la validacion de hroas */
+    public UnidadAprendizaje findById(Integer id) {
+        return entityManager.find(UnidadAprendizaje.class, id);
+    }
+
     @Override
     public EntityManager getEntityManager() {
         return entityManager;
     }
-
-
-
 }

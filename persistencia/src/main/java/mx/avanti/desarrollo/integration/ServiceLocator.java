@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mx.avanti.desarrollo.integration;
 
 import jakarta.persistence.EntityManager;
@@ -20,13 +15,14 @@ public class ServiceLocator {
     private static UsuarioDAO usuarioDAO;
     private static ProfesorDAO profesorDAO;
     private static UnidadAprendizajeDAO UnidadAprendizajeDAO;
+    private static ImparteDAO imparteDAO;
 
     private static EntityManager getEntityManager(){
         return HibernateUtil.getEntityManager();
     }
 
     /**
-     * se crea la instancia de usuarioDAO si esta no existe
+     * se crean las instancias DAO en caso de que no existan
      */
     public static UsuarioDAO getInstanceUsuarioDAO(){
         if(usuarioDAO == null){
@@ -37,9 +33,6 @@ public class ServiceLocator {
         }
     }
 
-    /**
-     * se crea la instancia de profesorDAO si esta no existe
-     */
     public static ProfesorDAO getInstanceProfesorDAO(){
         if(profesorDAO == null){
             profesorDAO = new ProfesorDAO(getEntityManager());
@@ -49,7 +42,6 @@ public class ServiceLocator {
         }
     }
 
-
     public static UnidadAprendizajeDAO getInstanceUnidadAprendizajeDAO(){
         if(UnidadAprendizajeDAO == null){
             UnidadAprendizajeDAO = new UnidadAprendizajeDAO(getEntityManager());
@@ -58,4 +50,12 @@ public class ServiceLocator {
             return UnidadAprendizajeDAO;
         }
     }
+
+    public static ImparteDAO getInstanceImparteDAO(){
+        if(imparteDAO == null){
+            imparteDAO = new ImparteDAO(getEntityManager());
+        }
+        return imparteDAO;
+    }
+
 }
