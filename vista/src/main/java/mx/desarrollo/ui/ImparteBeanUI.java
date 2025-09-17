@@ -50,6 +50,8 @@ public class ImparteBeanUI implements Serializable {
     // Metodo cuando se cambia de profesor
     public void onProfesorChange() {
         asignacionesProfesor = (profesorId == null) ? new ArrayList<>() : helper.listarDeProfesor(profesorId);
+        // 🔹 Recargar lista de unidades para reflejar altas nuevas
+        unidades = helper.listarUnidades();
         recalcularDisponibles();
     }
 
@@ -62,7 +64,10 @@ public class ImparteBeanUI implements Serializable {
         UnidadAprendizaje ua = unidades.stream()
                 .filter(u -> Objects.equals(u.getIdUA(), unidadId))
                 .findFirst().orElse(null);
-        if (ua == null) { horasRestantes = 0; return; }
+        if (ua == null) {
+            horasRestantes = 0;
+            return;
+        }
 
         int limite = switch (tipo) {
             case Clase -> ua.getHorasClase();
@@ -84,7 +89,9 @@ public class ImparteBeanUI implements Serializable {
         if (horaFin > maxFin) horaFin = maxFin;
     }
 
-    public int getHorasRestantes() { return Math.max(horasRestantes, 0); }
+    public int getHorasRestantes() {
+        return Math.max(horasRestantes, 0);
+    }
 
     public int getMaxHoraFin() {
         // Fin máximo = inicio + horasRestantes (al menos inicio+1), y nunca mayor a 24
@@ -104,8 +111,19 @@ public class ImparteBeanUI implements Serializable {
         }
 
         Imparte imparte = new Imparte();
-        Profesor p = new Profesor(); p.setIdProfesor(profesorId);
-        UnidadAprendizaje ua = new UnidadAprendizaje(); ua.setIdUA(unidadId);
+        Profesor p = new Profesor();
+        p.setIdProfesor(profesorId);
+
+        // 🔹 Buscar la unidad completa en la lista cargada
+        UnidadAprendizaje ua = unidades.stream()
+                .filter(u -> Objects.equals(u.getIdUA(), unidadId))
+                .findFirst()
+                .orElse(null);
+
+        if (ua == null) {
+            addMsg(FacesMessage.SEVERITY_ERROR, "Unidad de Aprendizaje no encontrada");
+            return;
+        }
 
         imparte.setProfesor(p);
         imparte.setUnidadAprendizaje(ua);
@@ -116,10 +134,13 @@ public class ImparteBeanUI implements Serializable {
 
         try {
             helper.asignar(imparte);
-            asignacionesProfesor.add(imparte);
+
+            // 🔹 Recargar asignaciones desde BD (ya con nombre de la UDA correcto)
+            asignacionesProfesor = helper.listarDeProfesor(profesorId);
 
             // Recalcular restantes
             recalcularDisponibles();
+
             addMsg(FacesMessage.SEVERITY_INFO,
                     "Clase asignada exitosamente. Quedan " + getHorasRestantes() +
                             " h de " + tipo + " en la unidad seleccionada");
@@ -142,24 +163,58 @@ public class ImparteBeanUI implements Serializable {
     }
 
     // Valores para los combobox
-    public Dia[] getDias() { return Dia.values(); }
-    public Tipo[] getTipos() { return Tipo.values(); }
+    public Dia[] getDias() {
+        return Dia.values();
+    }
+    public Tipo[] getTipos() {
+        return Tipo.values();
+    }
 
-    // AGetters y setters
-    public Integer getProfesorId() { return profesorId; }
-    public void setProfesorId(Integer profesorId) { this.profesorId = profesorId; }
-    public Integer getUnidadId() { return unidadId; }
-    public void setUnidadId(Integer unidadId) { this.unidadId = unidadId; }
-    public Tipo getTipo() { return tipo; }
-    public void setTipo(Tipo tipo) { this.tipo = tipo; }
-    public Dia getDia() { return dia; }
-    public void setDia(Dia dia) { this.dia = dia; }
-    public Integer getHoraInicio() { return horaInicio; }
-    public void setHoraInicio(Integer horaInicio) { this.horaInicio = horaInicio; }
-    public Integer getHoraFin() { return horaFin; }
-    public void setHoraFin(Integer horaFin) { this.horaFin = horaFin; }
+    // Getters y setters
+    public Integer getProfesorId() {
+        return profesorId;
+    }
+    public void setProfesorId(Integer profesorId) {
+        this.profesorId = profesorId;
+    }
+    public Integer getUnidadId() {
+        return unidadId;
+    }
+    public void setUnidadId(Integer unidadId) {
+        this.unidadId = unidadId;
+    }
+    public Tipo getTipo() {
+        return tipo;
+    }
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+    public Dia getDia() {
+        return dia;
+    }
+    public void setDia(Dia dia) {
+        this.dia = dia;
+    }
+    public Integer getHoraInicio() {
+        return horaInicio;
+    }
+    public void setHoraInicio(Integer horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+    public Integer getHoraFin() {
+        return horaFin;
+    }
+    public void setHoraFin(Integer horaFin) {
+        this.horaFin = horaFin;
+    }
 
-    public List<Profesor> getProfesores() { return profesores; }
-    public List<UnidadAprendizaje> getUnidades() { return unidades; }
-    public List<Imparte> getAsignacionesProfesor() { return asignacionesProfesor; }
+    public List<Profesor> getProfesores() {
+        return profesores;
+    }
+    public List<UnidadAprendizaje> getUnidades() {
+        return unidades;
+    }
+    public List<Imparte> getAsignacionesProfesor() {
+        return asignacionesProfesor;
+    }
 }

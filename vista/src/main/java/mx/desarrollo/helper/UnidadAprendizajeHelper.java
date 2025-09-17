@@ -15,13 +15,9 @@ public class UnidadAprendizajeHelper {
         return HibernateUtil.getEntityManager();
     }
 
-    public UnidadAprendizajeHelper() {
-        // No es necesario definir el DAO aquí, ya que todo se obtiene desde ServiceLocator
-    }
-
     // Método para obtener todas las Unidades de Aprendizaje de la base de datos
-    public List<UnidadAprendizaje> obtenerTodas() {
-        // Usamos ServiceLocator para obtener la instancia del DAO y llamar al método
+    public List<UnidadAprendizaje> obtenerTodas()
+    {
         return ServiceLocator.getInstanceUnidadAprendizajeDAO()
                 .obtenerTodos();
     }
@@ -47,7 +43,7 @@ public class UnidadAprendizajeHelper {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e;  // Re-lanzar o manejar de manera adecuada
+            throw e;
         } finally {
             em.close();
         }
