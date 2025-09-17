@@ -37,18 +37,18 @@ public class ConsultaBeanUI implements Serializable {
             listaProfesores = helper.listarProfesores();
             if (listaProfesores == null) listaProfesores = new ArrayList<>();
 
+            // Ordenar alfabéticamente por nombre
+            listaProfesores.sort((p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
+
             LOG.info("ConsultaBeanUI.init: profesores cargados = " + listaProfesores.size());
 
-            // OPCIONAL: seleccionar el primero automáticamente
-            // if (!listaProfesores.isEmpty()) {
-            //     setProfesorSeleccionado(listaProfesores.get(0));
-            // }
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "Error al inicializar ConsultaBeanUI", e);
             FacesContext.getCurrentInstance()
                     .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error inicializando vista", e.getMessage()));
         }
     }
+
 
     // Método invocado desde el h:commandLink (al hacer clic en un profesor)
     public void setProfesorSeleccionado(Profesor profesor) {
