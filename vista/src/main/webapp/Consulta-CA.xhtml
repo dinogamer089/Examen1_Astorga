@@ -1,0 +1,294 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Horario</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/primeicons@6.0.1/primeicons.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        :root {
+            --green: #2b9b45;
+            --text: #111;
+            --card-bg: #f8f8f8;
+        }
+
+        body {
+            font-family: "Kaisei Opti", serif;
+            color: var(--text);
+            margin: 0;
+            background: #fff;
+        }
+
+        /* ===== Topbar ===== */
+        .topbar {
+            grid-column: 1 / span 2;
+            grid-row: 1;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            background: var(--green);
+            color: #0a0a0a;
+            padding: 14px 24px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.15);
+        }
+        .topbar .home {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; height: 28px;
+            border-radius: 8px;
+        }
+        .topbar .menu {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        a.menu-btn,
+        a.home-btn {
+            appearance: none;
+            -webkit-appearance: none;
+            border: none;
+            background-color: var(--green);
+            font: inherit;
+            line-height: 1;
+            cursor: pointer;
+            background: linear-gradient(to right, #3DAF94 50%, #111 50%);
+            background-size: 200% 100%;
+            background-position: right bottom;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: background-position 0.4s ease;
+        }
+        a.home-btn {
+            font-size: 30px;
+            padding: 6px 10px;
+        }
+        a.menu-btn:hover,
+        a.home-btn:hover {
+            background-position: left bottom;
+        }
+
+        /* ===== Contenido principal ===== */
+        .content {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Recuadro gris translúcido */
+        .container {
+            display: flex;
+            gap: 20px;
+            background: rgba(243,243,243,0.25);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+
+        .panel {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+            padding: 20px;
+        }
+
+        /* ===== Panel izquierdo (profesores) ===== */
+        .profesores {
+            width: 350px;   /* ancho fijo */
+            flex: none;
+        }
+
+        .profesor-row {
+            display: grid;
+            grid-template-columns: 60px 120px 1fr; /* ID fijo, RFC fijo, Nombre ocupa resto */
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            background: #f0f0f0;
+            cursor: pointer;
+            color: black;
+            align-items: center;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .profesor-row span {
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+
+        /* Hover para que el usuario vea que es clickeable */
+        .profesor-row:hover {
+            background: #d6f5d6; /* verde clarito */
+        }
+
+        /* Profesor seleccionado */
+        .profesor-row.active {
+            background: #2b9b45; /* verde fuerte */
+            font-weight: bold;
+            color: white;        /* texto blanco para contraste */
+        }
+
+        /* ===== Panel derecho (horario) ===== */
+        .horario {
+            flex: 3;
+            min-width: 700px;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+        .horario .dia {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* ===== Materias ===== */
+        .materia {
+            background: #dcdcdc;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 13px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.15);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .materia strong {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+        .materia .detalles {
+            font-size: 12px;
+            margin: 4px 0;
+            color: #444;
+        }
+        .materia .horario-texto {
+            margin-top: 6px;
+            font-weight: bold;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form id="formConsulta">
+        <!-- Mensajes para ver errores en pantalla -->
+        <h:messages id="msgs" globalOnly="false" showSummary="true" showDetail="true"/>
+
+        <div class="layout">
+            <!-- Topbar -->
+            <header class="topbar">
+                <a href="Principal.xhtml" class="home-btn" aria-label="Inicio">
+                    <span class="home"><i class="pi pi-home"></i></span>
+                </a>
+                <nav class="menu">
+                    <a href="Profesores.xhtml" class="menu-btn">Profesores</a>
+                    <a href="Principal-UDA.xhtml" class="menu-btn">Unidades de Aprendizaje</a>
+                    <a href="AsignarUnidades-UA.xhtml" class="menu-btn">Asignar Unidades</a>
+                    <a href="Consulta-CA.xhtml" class="menu-btn">Horarios</a>
+                </nav>
+            </header>
+
+            <main class="content">
+                <div class="container">
+
+                    <!-- Lista de profesores -->
+                    <h:panelGroup id="profesoresPanel">
+                        <section class="panel profesores">
+                            <ui:repeat value="#{consultaUI.listaProfesores}" var="prof">
+                                <h:commandLink
+                                        action="#{consultaUI.setProfesorSeleccionado(prof)}"
+                                        style="text-decoration:none;"
+                                        styleClass="profesor-row #{consultaUI.profesorSeleccionado eq prof ? 'active' : ''}">
+
+                                    <span>#{prof.idProfesor}</span>
+                                    <span>#{prof.rfc}</span>
+                                    <span>#{prof.nombre} #{prof.apellidoPaterno} #{prof.apellidoMaterno}</span>
+
+                                    <!-- Ejecuta el ajax y actualiza lista + horario -->
+                                    <f:ajax render=":formConsulta:horarioPanel :formConsulta:profesoresPanel" execute="@this" />
+                                </h:commandLink>
+                            </ui:repeat>
+                        </section>
+                    </h:panelGroup>
+
+                    <!-- Horario (se actualiza con ajax) -->
+                    <h:panelGroup id="horarioPanel">
+                        <section class="panel horario">
+                            <!-- Lunes -->
+                            <div>
+                                <div class="dia">Lunes</div>
+                                <ui:repeat value="#{consultaUI.horarioLunes}" var="im">
+                                    <div class="materia">
+                                        <strong>#{im.unidadAprendizaje.nombre}</strong>
+                                        <div class="detalles">ID: #{im.unidadAprendizaje.idUA} | #{im.tipo}</div>
+                                        <div class="horario-texto">#{im.horaInicio} - #{im.horaFin}</div>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+
+                            <!-- Martes -->
+                            <div>
+                                <div class="dia">Martes</div>
+                                <ui:repeat value="#{consultaUI.horarioMartes}" var="im">
+                                    <div class="materia">
+                                        <strong>#{im.unidadAprendizaje.nombre}</strong>
+                                        <div class="detalles">ID: #{im.unidadAprendizaje.idUA} | #{im.tipo}</div>
+                                        <div class="horario-texto">#{im.horaInicio} - #{im.horaFin}</div>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+
+                            <!-- Miércoles -->
+                            <div>
+                                <div class="dia">Miércoles</div>
+                                <ui:repeat value="#{consultaUI.horarioMiercoles}" var="im">
+                                    <div class="materia">
+                                        <strong>#{im.unidadAprendizaje.nombre}</strong>
+                                        <div class="detalles">ID: #{im.unidadAprendizaje.idUA} | #{im.tipo}</div>
+                                        <div class="horario-texto">#{im.horaInicio} - #{im.horaFin}</div>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+
+                            <!-- Jueves -->
+                            <div>
+                                <div class="dia">Jueves</div>
+                                <ui:repeat value="#{consultaUI.horarioJueves}" var="im">
+                                    <div class="materia">
+                                        <strong>#{im.unidadAprendizaje.nombre}</strong>
+                                        <div class="detalles">ID: #{im.unidadAprendizaje.idUA} | #{im.tipo}</div>
+                                        <div class="horario-texto">#{im.horaInicio} - #{im.horaFin}</div>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+
+                            <!-- Viernes -->
+                            <div>
+                                <div class="dia">Viernes</div>
+                                <ui:repeat value="#{consultaUI.horarioViernes}" var="im">
+                                    <div class="materia">
+                                        <strong>#{im.unidadAprendizaje.nombre}</strong>
+                                        <div class="detalles">ID: #{im.unidadAprendizaje.idUA} | #{im.tipo}</div>
+                                        <div class="horario-texto">#{im.horaInicio} - #{im.horaFin}</div>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                        </section>
+                    </h:panelGroup>
+                </div>
+            </main>
+        </div>
+    </h:form>
+</h:body>
+</html>
