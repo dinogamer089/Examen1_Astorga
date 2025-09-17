@@ -16,5 +16,13 @@ public class DelegateUnidadAprendizaje {
         dao.save(unidad);
     }
 
+    public void updateUnidadAprendizaje(UnidadAprendizaje unidad) {
+        UnidadAprendizajeDAO dao = ServiceLocator.getInstanceUnidadAprendizajeDAO();
+        if (unidad.getHorasClase() > 4 || unidad.getHorasTaller() > 4 || unidad.getHorasLaboratorio() > 4) {
+            throw new IllegalArgumentException("Las horas de clase, taller o laboratorio no pueden ser mayores a 4 horas");
+        }
+        dao.update(unidad);
+    }
+
 
 }

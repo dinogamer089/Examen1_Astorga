@@ -255,7 +255,8 @@
                         </p:commandButton>
                         <p:commandButton value="Modificar"
                                          styleClass="btn"
-                                         disabled="#{unidadUI.seleccionada == null}">
+                                         disabled="#{unidadUI.seleccionada == null}"
+                                         action="Modificar-UDA.xhtml">
                             <f:ajax execute="@form" render="lista" />
                         </p:commandButton>
                         <p:commandButton value="Eliminar"

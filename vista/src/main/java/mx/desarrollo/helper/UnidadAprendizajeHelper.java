@@ -3,7 +3,6 @@ package mx.desarrollo.helper;
 import jakarta.persistence.EntityManager;
 import mx.avanti.desarrollo.dao.UnidadAprendizajeDAO;
 import mx.avanti.desarrollo.entity.UnidadAprendizaje;
-import mx.avanti.desarrollo.integration.ServiceLocator;
 import mx.avanti.desarrollo.persistence.HibernateUtil;
 import mx.desarrollo.integration.ServiceFacadeLocator;
 
@@ -11,45 +10,51 @@ import java.util.List;
 
 public class UnidadAprendizajeHelper {
 
-    private static EntityManager getEntityManager() {
+    private UnidadAprendizajeDAO unidadAprendizajeDAO;
+
+    private static EntityManager getEntityManager(){
         return HibernateUtil.getEntityManager();
     }
 
     public UnidadAprendizajeHelper() {
-        // No es necesario definir el DAO aquí, ya que todo se obtiene desde ServiceLocator
+        this.unidadAprendizajeDAO = new UnidadAprendizajeDAO(getEntityManager()); // Make sure this is properly instantiated
     }
 
-    // Método para obtener todas las Unidades de Aprendizaje de la base de datos
+    // Method to fetch all Unidades de Aprendizaje from the database
     public List<UnidadAprendizaje> obtenerTodas() {
-        // Usamos ServiceLocator para obtener la instancia del DAO y llamar al método
-        return ServiceLocator.getInstanceUnidadAprendizajeDAO()
-                .obtenerTodos();
+        return unidadAprendizajeDAO.obtenerTodos();  // Call to the DAO method that fetches data
     }
 
-    // Método para guardar una Unidad de Aprendizaje
     public void guardarUnidadAprendizaje(UnidadAprendizaje unidad) {
-        // Se normaliza el nombre quitando espacios y pasando a mayúsculas
+        // Se normaliza el nombre quitando espacios y pasando a mayusculas
         if (unidad.getNombre() != null) {
             unidad.setNombre(unidad.getNombre().trim().toUpperCase());
         }
-        // Usamos ServiceFacadeLocator para obtener el Facade y registrar la unidad
         ServiceFacadeLocator.getInstanceFacadeUnidadAprendizaje().registrarUnidadAprendizaje(unidad);
     }
 
-    // Método para eliminar una Unidad de Aprendizaje
     public void eliminarUnidadAprendizaje(UnidadAprendizaje unidad) {
-        EntityManager em = HibernateUtil.getEntityManager(); // Obtener el EntityManager
+        EntityManager em = HibernateUtil.getEntityManager(); // Get your EntityManager
         try {
             em.getTransaction().begin();
-            em.remove(em.contains(unidad) ? unidad : em.merge(unidad));  // Asegurarse de que la entidad esté gestionada antes de eliminarla
+            em.remove(em.contains(unidad) ? unidad : em.merge(unidad));  // Ensure the entity is managed before removing
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw e;  // Re-lanzar o manejar de manera adecuada
+            throw e;  // Rethrow or handle appropriately
         } finally {
             em.close();
         }
     }
+
+    public void editarUnidadAprendizaje(UnidadAprendizaje unidad) {
+        if (unidad.getNombre() != null) {
+            unidad.setNombre(unidad.getNombre().toUpperCase());
+        }
+        ServiceFacadeLocator.getInstanceFacadeUnidadAprendizaje().modificarUnidadAprendizaje(unidad);
+    }
+
+
 }
